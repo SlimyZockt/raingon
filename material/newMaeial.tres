@@ -1,0 +1,36 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://gradient/gradient.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform sampler2D gradient : hint_black;
+uniform vec2 tiled_factor = vec2(1.0, 5.0);
+uniform vec2 speed = vec2(0.5, 0.5);
+uniform float aspect_ratio = 0.5;
+
+void fragment () {
+	vec2 tiled_uv = UV * tiled_factor;
+	tiled_uv.y *= aspect_ratio;
+	
+	vec2 gradient_uv_offset;
+	gradient_uv_offset.x = cos(TIME + ( tiled_uv.x + tiled_uv.y) * speed.x);
+	gradient_uv_offset.y = 0.0;
+	
+	COLOR = texture(gradient, gradient_uv_offset);
+	
+	
+
+	
+	
+}
+"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/tiled_factor = Vector2( 1, 1 )
+shader_param/speed = Vector2( 0.6, 0.6 )
+shader_param/aspect_ratio = 0.5
+shader_param/gradient = ExtResource( 1 )

@@ -1,0 +1,7 @@
+var h
+
+func dynamicColor():
+	if h > 1 or h == null:
+		h = 0.0
+	h += 0.001 
+	modulate = Color.from_hsv(h, 1, 1)
