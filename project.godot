@@ -23,6 +23,8 @@ config/icon="res://icon.png"
 [autoload]
 
 global="*res://global.gd"
+UserData="*res://addons/github-integration/scripts/user_data.gd"
+IconLoaderGithub="*res://addons/github-integration/scripts/IconLoaderGithub.gd"
 
 [display]
 
@@ -35,7 +37,7 @@ window/stretch/aspect="keep_width"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "carmel4a97.RTS_Camera2D", "codeandweb.texturepacker", "notes_tab", "xphere-zone" )
+enabled=PoolStringArray( "carmel4a97.RTS_Camera2D", "codeandweb.texturepacker", "github-integration", "notes_tab", "xphere-zone" )
 
 [input]
 
