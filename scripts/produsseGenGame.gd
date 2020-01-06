@@ -2,7 +2,7 @@ extends Node2D
 
 onready var camera = $Camera2D
 
-const TILE_SIZE = 64
+const TILE_SIZE = 128
 
 const LELVEL_SIZES = [
 	Vector2(70,70),
@@ -261,7 +261,5 @@ func set_tile(x, y, type):
 func set_connect_tile(x, y, type):
 	map[x][y] = type
 	tile_map.set_cell(x , y , type)
-	tile_map.set_cell(x + 1 , y + 1 , type)
-	tile_map.set_cell(x + 2 , y + 2 , type)
 
 #kek kak kek

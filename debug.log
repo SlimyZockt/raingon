@@ -7,3 +7,4 @@
 [1227/115132.676:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [1231/235148.991:ERROR:settings.cc(325)] Settings version is not 1
 [0101/202932.115:ERROR:settings.cc(325)] Settings version is not 1
+[0106/201854.049:ERROR:settings.cc(325)] Settings version is not 1
