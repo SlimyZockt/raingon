@@ -13,7 +13,7 @@ const LELVEL_SIZES = [
 ]
 
 const LEVEL_ROOM_COUNTS = [5, 7, 9, 12, 15]
-const MIN_ROOM_DIMENSION = 5
+const MIN_ROOM_DIMENSION = 8
 const MAX_ROOM_DIMENSION = 8
 
 enum Tile {box, clean}
