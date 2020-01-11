@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=2]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+extends Area2D
 
 export(int) var openingDirection
-export(bool) var destroyer
 
 var RoomTemplates
 var spawned = false
@@ -15,12 +11,12 @@ var spawned = false
 # 4 -> rigth Door
 
 func _ready():
-	var Rooms = get_tree().get_nodes_in_group(\"rooms\")
+	var Rooms = get_tree().get_nodes_in_group("rooms")
 	for Room in Rooms:
-		if Room.name == \"RoomTemplates\":
+		if Room.name == "RoomTemplates":
 			RoomTemplates = Room
 	print(openingDirection)
-	yield(get_tree().create_timer(1), \"timeout\")
+	yield(get_tree().create_timer(0.1), "timeout")
 	spawn_room()
 	print(spawned)
 
@@ -48,27 +44,16 @@ func spawn_room():
 			get_tree().get_root().add_child(RigthRoom)
 			
 		spawned = true
+	elif spawned == null:
+		spawned = true	
 
 
 
 func _on_spawnpoint_area_entered(area):
-	if area.name.begins_with(\"spawnpoint\"):
+	if area.name.begins_with("spawnpoint"):
 		if area.spawned == false and spawned == false:
 			var colsedR = RoomTemplates.closedRooms.instance()
 			colsedR.position = global_position
-			yield(get_tree().create_timer(0.01), \"timeout\")
 			get_tree().get_root().add_child(colsedR)
 			queue_free()
-		
-		spawned = true"
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 128, 128 )
-
-[node name="spawnpoint" type="Area2D"]
-script = SubResource( 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 2 )
-[connection signal="area_entered" from="." to="." method="_on_spawnpoint_area_entered"]
+		spawned = true

@@ -5,36 +5,39 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends RigidBody2D
 
+var destriods = [\"wall\", \"enemy\"]
+
 func _on_hitboy_body_entered(body):
-	if body.name == \"wall\":
-		$Particles2D.emitting = true
-		queue_free()
+	for destriod in destriods:
+		if body.name == destriod:
+			$Particles2D.emitting = true
+			queue_free()
 
 "
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.00372439, 1 )
 colors = PoolColorArray( 0, 1, 1, 1, 0, 0.788235, 1, 0.584314 )
 
-[sub_resource type="GradientTexture" id=6]
-gradient = SubResource( 5 )
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
 
-[sub_resource type="Curve" id=7]
+[sub_resource type="Curve" id=4]
 min_value = -200.0
 max_value = 400.0
 _data = [ Vector2( 0.0014, 390.4 ), 0.0, -54.321, 0, 0, Vector2( 0.2336, 20.8 ), -953.333, -953.333, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=8]
-curve = SubResource( 7 )
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=6]
 max_value = 3.5
 _data = [ Vector2( 0, 0.1176 ), 0.0, 0.0, 0, 0, Vector2( 0.986, 2.8588 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
-curve = SubResource( 9 )
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
 
-[sub_resource type="ParticlesMaterial" id=11]
+[sub_resource type="ParticlesMaterial" id=8]
 emission_shape = 1
 emission_sphere_radius = 2.0
 flag_disable_z = true
@@ -42,41 +45,42 @@ spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 100.0
 initial_velocity_random = 0.5
+angular_velocity = 1.05
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 100.0
-linear_accel_curve = SubResource( 8 )
+linear_accel_curve = SubResource( 5 )
 angle = 720.0
 angle_random = 1.0
 scale = 3.0
 scale_random = 1.0
-scale_curve = SubResource( 10 )
-color_ramp = SubResource( 6 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 3 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 32, 32 )
 
-[sub_resource type="CanvasItemMaterial" id=3]
+[sub_resource type="CanvasItemMaterial" id=10]
 blend_mode = 1
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 32.4714, 32.1012 )
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 33.0797, 32.3482 )
 
 [node name="bullet" type="RigidBody2D" groups=[
 "bullet",
 ]]
 modulate = Color( 0, 1, 1, 1 )
+gravity_scale = 0.0
 script = SubResource( 1 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
 rotation = -1.5708
-scale = Vector2( 1, 1 )
 emitting = false
 amount = 200
 lifetime = 0.5
 one_shot = true
 explosiveness = 0.5
-process_material = SubResource( 11 )
+process_material = SubResource( 8 )
 
 [node name="box" type="Sprite" parent="."]
 scale = Vector2( 0.109938, 0.403533 )
@@ -84,12 +88,12 @@ texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 0.22, 0.807 )
-shape = SubResource( 2 )
+shape = SubResource( 9 )
 
 [node name="hitboy" type="Area2D" parent="."]
-material = SubResource( 3 )
+material = SubResource( 10 )
 scale = Vector2( 0.22, 0.807 )
 
 [node name="collisionbox" type="CollisionShape2D" parent="hitboy"]
-shape = SubResource( 4 )
+shape = SubResource( 11 )
 [connection signal="body_entered" from="hitboy" to="." method="_on_hitboy_body_entered"]

@@ -104,6 +104,10 @@ aim={
 "events": [  ]
 }
 
+[physics]
+
+2d/thread_model=2
+
 [rendering]
 
 environment/default_clear_color=Color( 0, 0, 0, 1 )

@@ -11,3 +11,8 @@ func _ready():
 func add_camera():
 	remove_child(camera)
 	player.add_child(camera)
+
+
+func _on_Area2D_area_entered(area):
+	if area.name.begins_with("spawnpoint"):
+		remove_child(area)

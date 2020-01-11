@@ -1,66 +1,38 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scripts/game.tres.gd" type="Script" id=1]
-[ext_resource path="res://prefabs/B.tscn" type="PackedScene" id=2]
-[ext_resource path="res://prefabs/UB.tscn" type="PackedScene" id=3]
-[ext_resource path="res://prefabs/BL.tscn" type="PackedScene" id=4]
-[ext_resource path="res://prefabs/RB.tscn" type="PackedScene" id=5]
-[ext_resource path="res://prefabs/ULB.tscn" type="PackedScene" id=6]
-[ext_resource path="res://prefabs/BLR.tscn" type="PackedScene" id=7]
-[ext_resource path="res://prefabs/BRU.tscn" type="PackedScene" id=8]
-[ext_resource path="res://prefabs/LUR.tscn" type="PackedScene" id=9]
-[ext_resource path="res://prefabs/UR.tscn" type="PackedScene" id=10]
-[ext_resource path="res://prefabs/U.tscn" type="PackedScene" id=11]
-[ext_resource path="res://prefabs/LU.tscn" type="PackedScene" id=12]
-[ext_resource path="res://prefabs/R.tscn" type="PackedScene" id=13]
-[ext_resource path="res://prefabs/RL.tscn" type="PackedScene" id=14]
-[ext_resource path="res://prefabs/L.tscn" type="PackedScene" id=15]
-[ext_resource path="res://sprites/box.png" type="Texture" id=16]
-[ext_resource path="res://sprites/clean.png" type="Texture" id=17]
-[ext_resource path="res://scene/enemy.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scene/player.tscn" type="PackedScene" id=19]
-[ext_resource path="res://prefabs/URBL.tscn" type="PackedScene" id=20]
+[ext_resource path="res://prefabs/B/B.tscn" type="PackedScene" id=2]
+[ext_resource path="res://prefabs/B/BL.tscn" type="PackedScene" id=3]
+[ext_resource path="res://prefabs/B/RB.tscn" type="PackedScene" id=4]
+[ext_resource path="res://prefabs/B/UB.tscn" type="PackedScene" id=5]
+[ext_resource path="res://prefabs/U/LU.tscn" type="PackedScene" id=6]
+[ext_resource path="res://prefabs/U/U.tscn" type="PackedScene" id=7]
+[ext_resource path="res://prefabs/U/UB.tscn" type="PackedScene" id=8]
+[ext_resource path="res://prefabs/U/UR.tscn" type="PackedScene" id=9]
+[ext_resource path="res://prefabs/R/R.tscn" type="PackedScene" id=10]
+[ext_resource path="res://prefabs/R/RL.tscn" type="PackedScene" id=11]
+[ext_resource path="res://prefabs/R/UR.tscn" type="PackedScene" id=12]
+[ext_resource path="res://prefabs/R/BR.tscn" type="PackedScene" id=13]
+[ext_resource path="res://prefabs/L/BL.tscn" type="PackedScene" id=14]
+[ext_resource path="res://prefabs/L/LU.tscn" type="PackedScene" id=15]
+[ext_resource path="res://prefabs/L/RL.tscn" type="PackedScene" id=16]
+[ext_resource path="res://prefabs/L/L.tscn" type="PackedScene" id=17]
+[ext_resource path="res://prefabs/ClostedR.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scene/enemy.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scene/player.tscn" type="PackedScene" id=20]
+[ext_resource path="res://prefabs/URBL.tscn" type="PackedScene" id=21]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Node
 
 export(Array, PackedScene) var BottomRooms
 export(Array, PackedScene) var UPRooms
 export(Array, PackedScene) var RigthRooms
-export(Array, PackedScene) var LeftRooms"
+export(Array, PackedScene) var LeftRooms
 
-[sub_resource type="ConvexPolygonShape2D" id=1]
-points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
+export(PackedScene) var closedRooms"
 
-[sub_resource type="TileSet" id=2]
-0/name = "box.png 0"
-0/texture = ExtResource( 16 )
-0/tex_offset = Vector2( 0, 0 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 128, 128 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 1 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-0/z_index = 0
-1/name = "clean.png 1"
-1/texture = ExtResource( 17 )
-1/tex_offset = Vector2( 0, 0 )
-1/modulate = Color( 1, 1, 1, 1 )
-1/region = Rect2( 0, 0, 128, 128 )
-1/tile_mode = 0
-1/occluder_offset = Vector2( 0, 0 )
-1/navigation_offset = Vector2( 0, 0 )
-1/shapes = [  ]
-1/z_index = 0
-
-[sub_resource type="Environment" id=3]
+[sub_resource type="Environment" id=2]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 5.29
@@ -72,38 +44,38 @@ adjustment_enabled = true
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="RoomTemplates" type="Node" parent="."]
-script = SubResource( 4 )
-BottomRooms = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ]
-UPRooms = [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 6 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 3 ) ]
-RigthRooms = [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 13 ), ExtResource( 5 ), ExtResource( 14 ) ]
-LeftRooms = [ ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 9 ), ExtResource( 7 ) ]
-
-[node name="wall" type="TileMap" parent="."]
-tile_set = SubResource( 2 )
-cell_size = Vector2( 128, 128 )
-format = 1
+[node name="RoomTemplates" type="Node" parent="." groups=[
+"rooms",
+]]
+script = SubResource( 1 )
+BottomRooms = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ]
+UPRooms = [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ]
+RigthRooms = [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ]
+LeftRooms = [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ]
+closedRooms = ExtResource( 18 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 3 )
+environment = SubResource( 2 )
 
-[node name="enemy" parent="." instance=ExtResource( 18 )]
-position = Vector2( 384, 896 )
+[node name="enemy" parent="." instance=ExtResource( 19 )]
+position = Vector2( -384, -384 )
 rotation = -1.5708
-detect_radius = 400
+detect_radius = 800
+debug = true
 
-[node name="player" parent="." instance=ExtResource( 19 )]
+[node name="player" parent="." instance=ExtResource( 20 )]
 modulate = Color( 0, 1, 1, 1 )
+position = Vector2( 384, 384 )
 rotation = 3.14159
-FIRE_RATE = 0.3
+BULLET_SPEED = 1250
+
+[node name="Start" parent="." instance=ExtResource( 21 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 2, 2 )
-drag_margin_left = 0.5
+zoom = Vector2( 1.7, 1.7 )
+drag_margin_left = 0.4
 drag_margin_top = 0.5
-drag_margin_right = 0.5
+drag_margin_right = 0.4
 drag_margin_bottom = 0.5
 editor_draw_drag_margin = true
-
-[node name="Node2D" parent="." instance=ExtResource( 20 )]
