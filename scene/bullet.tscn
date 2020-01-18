@@ -5,13 +5,10 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends RigidBody2D
 
-var destriods = [\"wall\", \"enemy\"]
-
 func _on_hitboy_body_entered(body):
-	for destriod in destriods:
-		if body.name == destriod:
-			$Particles2D.emitting = true
-			queue_free()
+	if body.is_in_group(\"hitbox\") or body.name == \"wall\":
+		$Particles2D.emitting = true
+		queue_free()
 
 "
 

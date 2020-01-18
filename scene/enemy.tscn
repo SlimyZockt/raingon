@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://sprites/box.png" type="Texture" id=1]
 
@@ -7,11 +7,11 @@ script/source = "extends KinematicBody2D
 
 onready var attakRange = $attakRange/CollisionShape2D
 
-export (int) var detect_radius = 200
-export (float) var fire_rate = 0.2
+export (int) var detect_radius = 360
 export (bool) var debug = false
+export(int) var hp = 3
 
-var dash = true
+var follw = false
 var target
 var hit_pos
 var player_pos
@@ -19,12 +19,18 @@ var motition = Vector2(0, 0)
 var vis_color = Color(0, 1, 0, 0.4)
 var laser_color = Color(0.9, 0, 0, 0.4)
 var detects: bool = false
+var speed = 0
 
 const DETECT_RADIUS = 360
+const MAX_SPEED = 5.0
+const ASSELERATION = 1
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group(\"bullet\"):
-		queue_free()
+		hp -= 1
+		$AnimationPlayer.play(\"Hit\")
+		if hp == 0:
+			queue_free()
 	elif body.is_in_group(\"player\"):
 		body.die()
 
@@ -44,8 +50,8 @@ func _draw():
 		draw_circle(Vector2(), detect_radius, vis_color)
 		if target:
 			for hit in hit_pos:
-				draw_circle((hit- position).rotated(-rotation), 5, laser_color)
-				draw_line(Vector2(), (hit - position).rotated(-rotation), laser_color)
+				draw_circle((hit- global_position).rotated(-rotation), 5, laser_color)
+				draw_line(Vector2(), (hit - global_position).rotated(-rotation), laser_color)
 
 func _on_attakRange_body_entered(body):
 	 # connect this to the \"body_entered\" signal
@@ -64,28 +70,68 @@ func see():
 	hit_pos = []
 	var space_state = get_world_2d().direct_space_state
 	var target_extents = target.get_node(\"CollisionShape2D\").shape.extents - Vector2(5, 5)
-	var nw = target.position - target_extents
-	var se = target.position + target_extents
-	var ne = target.position + Vector2(target_extents.x, -target_extents.y)
-	var sw = target.position + Vector2(-target_extents.x, target_extents.y)
-	for pos in [nw, se, ne, sw]:
-		var result = space_state.intersect_ray(position, pos, [self], collision_mask)
+	var nw = target.global_position - target_extents
+	var se = target.global_position + target_extents
+	var ne = target.global_position + Vector2(target_extents.x, -target_extents.y)
+	var sw = target.global_position + Vector2(-target_extents.x, target_extents.y)
+	for pos in [target.position ,nw, se, ne, sw]:
+		var result = space_state.intersect_ray(global_position, pos, [self], collision_mask)
 		if result:
 			hit_pos.append(result.position)
+			print(result.collider.name) 
 			if result.collider.name == \"player\":
-				rotation = (target.position - position).angle()
+				rotation = (target.global_position - global_position).angle()
 				detects = true
-				if dash:
-					dash = false
-					dash(pos)
+				follw(pos)
 
-func dash(player_pos):
-	var dashTime = 3
-	for T in range(dashTime):
-		print(T)
-		if T >= 0:
-			motition = (global_position - player_pos) * -T 
-	dash = true"
+func follw(player_pos):
+		if speed >= 5:
+			motition = (global_position - player_pos) * -speed
+		else:
+			speed += 0.02
+			motition = (global_position - player_pos) * -speed"
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0, 0.164706, 1 )
+colors = PoolColorArray( 1, 0, 0, 1, 0.417969, 0.0555115, 0.0555115, 1, 0.238281, 0.0111694, 0.0111694, 1 )
+
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
+
+[sub_resource type="Curve" id=9]
+min_value = -200.0
+max_value = 400.0
+_data = [ Vector2( 0.0014, 390.4 ), 0.0, -54.321, 0, 0, Vector2( 0.2336, 20.8 ), -953.333, -953.333, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=10]
+curve = SubResource( 9 )
+
+[sub_resource type="Curve" id=11]
+max_value = 5.0
+_data = [ Vector2( 0, 0.1176 ), 0.0, 0.0, 0, 0, Vector2( 0.998461, 4.986 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 114.22
+initial_velocity_random = 0.3
+angular_velocity = 10.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 100.0
+linear_accel_curve = SubResource( 10 )
+angle = 720.0
+angle_random = 1.0
+scale = 3.0
+scale_random = 1.0
+scale_curve = SubResource( 12 )
+color_ramp = SubResource( 8 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 32 )
@@ -100,8 +146,49 @@ _data = {
 "points": PoolVector2Array(  )
 }
 
-[node name="enemy" type="KinematicBody2D"]
+[sub_resource type="Animation" id=6]
+resource_name = "Hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("box:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 0.999997, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 0.301961, 0.0196078, 0.0196078, 1 ), Color( 1, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Particles2D2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 2,
+"values": [  ]
+}
+
+[node name="enemy" type="KinematicBody2D" groups=[
+"hitbox",
+]]
 script = SubResource( 1 )
+detect_radius = 900
+hp = 25
+
+[node name="Particles2D2" type="Particles2D" parent="."]
+rotation = -1.5708
+scale = Vector2( 1.5, 1.5 )
+emitting = false
+amount = 50
+lifetime = 0.5
+one_shot = true
+process_material = SubResource( 13 )
 
 [node name="Collisionbox" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -113,18 +200,24 @@ texture = ExtResource( 1 )
 
 [node name="attakRange" type="Area2D" parent="."]
 editor/display_folded = true
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attakRange"]
 shape = SubResource( 3 )
 
 [node name="hitbox" type="Area2D" parent="."]
 editor/display_folded = true
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+visible = false
 shape = SubResource( 4 )
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Hit = SubResource( 6 )
 [connection signal="body_entered" from="attakRange" to="." method="_on_attakRange_body_entered"]
 [connection signal="body_exited" from="attakRange" to="." method="_on_attakRange_body_exited"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_Area2D_body_entered"]

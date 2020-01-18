@@ -20,7 +20,7 @@ func _ready():
 		if Room.name == \"RoomTemplates\":
 			RoomTemplates = Room
 	print(openingDirection)
-	yield(get_tree().create_timer(1), \"timeout\")
+	yield(get_tree().create_timer(0.1), \"timeout\")
 	spawn_room()
 	print(spawned)
 
