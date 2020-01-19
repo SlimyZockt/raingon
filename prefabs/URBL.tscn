@@ -8,13 +8,14 @@
 script/source = "extends Node2D
 
 func _ready():
-	pass
+	global.Rooms.append(self)
 
 
 func _on_Area2D_area_entered(area):
-	print(area.name)
 	if area.name.begins_with(\"spawnpoint\"):
 		area.queue_free()
+
+
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -50,10 +51,11 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 1/shapes = [  ]
 1/z_index = 0
 
-[node name="Node2D" type="Node2D"]
+[node name="URBL" type="Node2D"]
 script = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
+editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false

@@ -91,29 +91,29 @@ func follw(player_pos):
 			speed += 0.02
 			motition = (global_position - player_pos) * -speed"
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.164706, 1 )
 colors = PoolColorArray( 1, 0, 0, 1, 0.417969, 0.0555115, 0.0555115, 1, 0.238281, 0.0111694, 0.0111694, 1 )
 
-[sub_resource type="GradientTexture" id=8]
-gradient = SubResource( 7 )
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=4]
 min_value = -200.0
 max_value = 400.0
 _data = [ Vector2( 0.0014, 390.4 ), 0.0, -54.321, 0, 0, Vector2( 0.2336, 20.8 ), -953.333, -953.333, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
-curve = SubResource( 9 )
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="Curve" id=6]
 max_value = 5.0
 _data = [ Vector2( 0, 0.1176 ), 0.0, 0.0, 0, 0, Vector2( 0.998461, 4.986 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=12]
-curve = SubResource( 11 )
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 6 )
 
-[sub_resource type="ParticlesMaterial" id=13]
+[sub_resource type="ParticlesMaterial" id=8]
 emission_shape = 1
 emission_sphere_radius = 1.0
 flag_disable_z = true
@@ -125,29 +125,28 @@ angular_velocity = 10.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 linear_accel = 100.0
-linear_accel_curve = SubResource( 10 )
+linear_accel_curve = SubResource( 5 )
 angle = 720.0
 angle_random = 1.0
 scale = 3.0
 scale_random = 1.0
-scale_curve = SubResource( 12 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 3 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 32, 32 )
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=10]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 33.272, 33.3779 )
 
-[sub_resource type="Curve2D" id=5]
+[sub_resource type="Curve2D" id=12]
 _data = {
 "points": PoolVector2Array(  )
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Hit"
+[sub_resource type="Animation" id=13]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("box:modulate")
@@ -178,7 +177,8 @@ tracks/1/keys = {
 "hitbox",
 ]]
 script = SubResource( 1 )
-detect_radius = 900
+detect_radius = 800
+debug = true
 hp = 25
 
 [node name="Particles2D2" type="Particles2D" parent="."]
@@ -188,10 +188,10 @@ emitting = false
 amount = 50
 lifetime = 0.5
 one_shot = true
-process_material = SubResource( 13 )
+process_material = SubResource( 8 )
 
 [node name="Collisionbox" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 9 )
 
 [node name="box" type="Sprite" parent="."]
 modulate = Color( 1, 0, 0, 1 )
@@ -203,7 +203,7 @@ editor/display_folded = true
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attakRange"]
-shape = SubResource( 3 )
+shape = SubResource( 10 )
 
 [node name="hitbox" type="Area2D" parent="."]
 editor/display_folded = true
@@ -211,13 +211,13 @@ visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 visible = false
-shape = SubResource( 4 )
+shape = SubResource( 11 )
 
 [node name="Path2D" type="Path2D" parent="."]
-curve = SubResource( 5 )
+curve = SubResource( 12 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Hit = SubResource( 6 )
+anims/Hit = SubResource( 13 )
 [connection signal="body_entered" from="attakRange" to="." method="_on_attakRange_body_entered"]
 [connection signal="body_exited" from="attakRange" to="." method="_on_attakRange_body_exited"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_Area2D_body_entered"]

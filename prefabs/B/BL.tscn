@@ -1,16 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://sprites/box.png" type="Texture" id=1]
-[ext_resource path="res://sprites/clean.png" type="Texture" id=2]
-[ext_resource path="res://scene/spawnpoint.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scene/enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/addRoom.gd" type="Script" id=1]
+[ext_resource path="res://sprites/box.png" type="Texture" id=2]
+[ext_resource path="res://sprites/clean.png" type="Texture" id=3]
+[ext_resource path="res://scene/spawnpoint.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scene/enemy.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 
 [sub_resource type="TileSet" id=2]
 0/name = "box.png 0"
-0/texture = ExtResource( 1 )
+0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 128, 128 )
@@ -26,7 +27,7 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 } ]
 0/z_index = 0
 1/name = "clean.png 1"
-1/texture = ExtResource( 2 )
+1/texture = ExtResource( 3 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 0, 128, 128 )
@@ -37,6 +38,7 @@ points = PoolVector2Array( 0, 0, 128, 0, 128, 128, 0, 128 )
 1/z_index = 0
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
 
 [node name="wall" type="TileMap" parent="."]
 tile_set = SubResource( 2 )
@@ -44,13 +46,13 @@ cell_size = Vector2( 128, 128 )
 format = 1
 tile_data = PoolIntArray( -262149, 0, 0, -262148, 0, 0, -262147, 0, 0, -262146, 0, 0, -262145, 0, 0, -327680, 0, 0, -327679, 0, 0, -327678, 0, 0, -327677, 0, 0, -327676, 0, 0, -196613, 0, 0, -262140, 0, 0, -131077, 0, 0, -196604, 0, 0, -65541, 0, 0, -131068, 0, 0, -65532, 0, 0, 4, 0, 0, 131067, 0, 0, 65540, 0, 0, 196603, 0, 0, 131076, 0, 0, 262139, 0, 0, 196612, 0, 0, 327675, 0, 0, 327676, 0, 0, 327677, 0, 0, 327678, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0 )
 
-[node name="spawnpointBOTTON" parent="." instance=ExtResource( 3 )]
+[node name="spawnpointBOTTON" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, 1280 )
 openingDirection = 3
 
-[node name="spawnpointLEFT" parent="." instance=ExtResource( 3 )]
+[node name="spawnpointLEFT" parent="." instance=ExtResource( 4 )]
 position = Vector2( -1280, 0 )
 openingDirection = 4
 
-[node name="enemy" parent="." instance=ExtResource( 4 )]
+[node name="enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( -424.006, 424.006 )

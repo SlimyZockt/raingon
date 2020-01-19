@@ -95,6 +95,7 @@ func check_input():
 		isJoyConnected = false
 		
 func die():
+	get_tree().get_root().get_node(\"GAme\").reload()
 	queue_free()"
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -110,7 +111,7 @@ rotation = 1.5708
 script = SubResource( 1 )
 
 [node name="BulletPoint" type="Node2D" parent="."]
-position = Vector2( 48.146, 2.28882e-005 )
+position = Vector2( 46.146, 3.05176e-005 )
 
 [node name="player" type="Sprite" parent="."]
 rotation = 1.5708

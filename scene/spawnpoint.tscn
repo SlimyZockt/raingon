@@ -5,6 +5,8 @@ script/source = "extends Area2D
 
 export(int) var openingDirection
 export(bool) var destroyer
+export(float) var waittime = 0.4
+export(int) var MaxRoom = 10
 
 var RoomTemplates
 var spawned = false
@@ -19,13 +21,13 @@ func _ready():
 	for Room in Rooms:
 		if Room.name == \"RoomTemplates\":
 			RoomTemplates = Room
-	print(openingDirection)
-	yield(get_tree().create_timer(0.1), \"timeout\")
+	yield(get_tree().create_timer(0.05), \"timeout\")
 	spawn_room()
-	print(spawned)
+	yield(get_tree().create_timer(waittime), \"timeout\")
+	queue_free()
 
 func spawn_room():
-	if spawned == false:
+	if spawned == false and global.Rooms.size() < MaxRoom:
 		if openingDirection == 1:
 			randomize()
 			var BottomRoom = RoomTemplates.BottomRooms[randi() % RoomTemplates.BottomRooms.size()].instance()
@@ -48,7 +50,11 @@ func spawn_room():
 			get_tree().get_root().add_child(RigthRoom)
 			
 		spawned = true
-
+	elif not spawned and global.Rooms.size()  >= MaxRoom:
+		var colsedR = RoomTemplates.closedRooms.instance()
+		colsedR.position = global_position
+		get_tree().get_root().add_child(colsedR)
+		spawned = true
 
 
 func _on_spawnpoint_area_entered(area):
@@ -65,7 +71,10 @@ func _on_spawnpoint_area_entered(area):
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 128, 128 )
 
-[node name="spawnpoint" type="Area2D"]
+[node name="spawnpoint" type="Area2D" groups=[
+"spawnpoint",
+]]
+pause_mode = 2
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

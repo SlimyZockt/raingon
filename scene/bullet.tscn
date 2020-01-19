@@ -7,7 +7,6 @@ script/source = "extends RigidBody2D
 
 func _on_hitboy_body_entered(body):
 	if body.is_in_group(\"hitbox\") or body.name == \"wall\":
-		$Particles2D.emitting = true
 		queue_free()
 
 "
@@ -55,13 +54,13 @@ scale_curve = SubResource( 7 )
 color_ramp = SubResource( 3 )
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 32, 32 )
+extents = Vector2( 31.8182, 32.2181 )
 
 [sub_resource type="CanvasItemMaterial" id=10]
 blend_mode = 1
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 33.0797, 32.3482 )
+extents = Vector2( 34.0658, 32.8329 )
 
 [node name="bullet" type="RigidBody2D" groups=[
 "bullet",
@@ -80,12 +79,16 @@ explosiveness = 0.5
 process_material = SubResource( 8 )
 
 [node name="box" type="Sprite" parent="."]
-scale = Vector2( 0.109938, 0.403533 )
+position = Vector2( -2.68221e-007, 5.96044e-008 )
+scale = Vector2( 0.109375, 0.40625 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 0.22, 0.807 )
 shape = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="hitboy" type="Area2D" parent="."]
 material = SubResource( 10 )

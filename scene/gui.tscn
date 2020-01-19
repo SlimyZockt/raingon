@@ -12,17 +12,15 @@ onready var start = \"res://prefabs/URBL.tscn\"
 func _process(delta):
 	if Input.is_action_just_pressed(\"meneu\"):
 		change_gui()
-	
+
 func change_gui():
 	get_tree().paused = !get_tree().paused
 	CRect.visible = !CRect.visible
 	UI.visible = !UI.visible
-	
-	
-
 
 func _on_TextureButton_pressed():
-	get_tree().get_root().get_node(\"Node2D\").reload()"
+	get_tree().paused = !get_tree().paused
+	get_tree().get_root().get_node(\"GAme\").reload()"
 
 [node name="gui" type="Control"]
 pause_mode = 2
