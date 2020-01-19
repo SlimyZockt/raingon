@@ -178,7 +178,6 @@ tracks/1/keys = {
 ]]
 script = SubResource( 1 )
 detect_radius = 800
-debug = true
 hp = 25
 
 [node name="Particles2D2" type="Particles2D" parent="."]

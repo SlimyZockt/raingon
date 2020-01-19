@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://sprites/btnR.png" type="Texture" id=1]
+[ext_resource path="res://sprites/BGBtn.png" type="Texture" id=1]
+[ext_resource path="res://sprites/btnR.png" type="Texture" id=2]
+[ext_resource path="res://sprites/btnM.png" type="Texture" id=3]
+[ext_resource path="res://sprites/btnc.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -20,7 +23,15 @@ func change_gui():
 
 func _on_TextureButton_pressed():
 	get_tree().paused = !get_tree().paused
-	get_tree().get_root().get_node(\"GAme\").reload()"
+	get_tree().get_root().get_node(\"GAme\").reload()
+
+func _on_MBtn_pressed():
+	pass # Replace with function body.
+
+
+func _on_CBtn_pressed():
+	get_tree().quit()
+"
 
 [node name="gui" type="Control"]
 pause_mode = 2
@@ -35,15 +46,70 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="TextureButton" type="TextureButton" parent="UI/UI"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/UI"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 64.0
-margin_top = 64.0
-margin_right = -1152.0
-margin_bottom = -592.0
+margin_top = 62.0
+margin_right = -60.0
+margin_bottom = -6.0
+rect_min_size = Vector2( 1220, 652 )
+alignment = 2
+
+[node name="GridContainer2" type="GridContainer" parent="UI/UI/HBoxContainer2"]
+editor/display_folded = true
+margin_left = 1148.0
+margin_right = 1220.0
+margin_bottom = 652.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+
+[node name="TextureRect" type="TextureRect" parent="UI/UI/HBoxContainer2/GridContainer2"]
+margin_right = 72.0
+margin_bottom = 224.0
+rect_min_size = Vector2( 72, 224 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/UI"]
+editor/display_folded = true
+margin_top = 68.0
+margin_right = 1216.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 1216, 652 )
+alignment = 2
+
+[node name="GridContainer" type="GridContainer" parent="UI/UI/HBoxContainer"]
+margin_left = 1152.0
+margin_right = 1216.0
+margin_bottom = 652.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+
+[node name="RBtn" type="TextureButton" parent="UI/UI/HBoxContainer/GridContainer"]
+margin_right = 64.0
+margin_bottom = 64.0
 rect_min_size = Vector2( 64, 64 )
-texture_normal = ExtResource( 1 )
+texture_normal = ExtResource( 2 )
+expand = true
+stretch_mode = 4
+
+[node name="MBtn" type="TextureButton" parent="UI/UI/HBoxContainer/GridContainer"]
+margin_top = 74.0
+margin_right = 64.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 64, 64 )
+texture_normal = ExtResource( 3 )
+expand = true
+stretch_mode = 4
+
+[node name="CBtn" type="TextureButton" parent="UI/UI/HBoxContainer/GridContainer"]
+margin_top = 148.0
+margin_right = 64.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 64, 64 )
+texture_normal = ExtResource( 4 )
 expand = true
 stretch_mode = 4
 
@@ -54,5 +120,7 @@ layer = 0
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.392157 )
-[connection signal="pressed" from="UI/UI/TextureButton" to="." method="_on_TextureButton_pressed"]
+color = Color( 0, 0, 0, 0.505882 )
+[connection signal="pressed" from="UI/UI/HBoxContainer/GridContainer/RBtn" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="UI/UI/HBoxContainer/GridContainer/MBtn" to="." method="_on_MBtn_pressed"]
+[connection signal="pressed" from="UI/UI/HBoxContainer/GridContainer/CBtn" to="." method="_on_CBtn_pressed"]
