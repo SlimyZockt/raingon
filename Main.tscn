@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://prefabs/B/B.tscn" type="PackedScene" id=1]
 [ext_resource path="res://prefabs/B/BL.tscn" type="PackedScene" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://prefabs/ClostedR.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scene/gui.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scene/dungeon.tscn" type="PackedScene" id=19]
+[ext_resource path="res://assets/sound/soundTrack1.wav" type="AudioStream" id=20]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -26,16 +27,10 @@ script/source = "extends Node2D
 var start = preload(\"res://scene/dungeon.tscn\")
 
 func _ready():
-	pass
+	$AudioStreamPlayer2D.play()
 
 func reload():
-	print(global.Rooms.size(), \" | \", global.Rooms)
-	while 0 < global.Rooms.size():
-		for room in global.Rooms:
-			global.Rooms.erase(room)
-			room.queue_free()
-	for player in get_tree().get_nodes_in_group(\"player\"):
-		player.queue_free()
+	deleat_all()
 	yield(get_tree().create_timer(global.Rooms.size() / 10),\"timeout\")
 	print(\"Rooms___________________________________\")
 	print(global.Rooms.size(), \" | \", global.Rooms)
@@ -47,7 +42,16 @@ func reload():
 	yield(get_tree().create_timer(0.1),\"timeout\") 
 	print(\"realoaded___________________________________\")
 	for node in get_tree().get_root().get_children():
-		print(node.name)"
+		print(node.name)
+
+func deleat_all():
+	print(global.Rooms.size(), \" | \", global.Rooms)
+	while 0 < global.Rooms.size():
+		for room in global.Rooms:
+			global.Rooms.erase(room)
+			room.queue_free()
+	for player in get_tree().get_nodes_in_group(\"player\"):
+		player.queue_free()"
 
 [sub_resource type="Environment" id=2]
 background_mode = 4
@@ -89,3 +93,6 @@ closedRooms = ExtResource( 17 )
 [node name="gui" parent="." instance=ExtResource( 18 )]
 
 [node name="Start" parent="." instance=ExtResource( 19 )]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 20 )

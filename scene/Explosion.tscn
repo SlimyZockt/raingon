@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 0.168627 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.970414, 0.698 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 2
+emission_box_extents = Vector3( 1, 1, 1 )
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 96.77
+initial_velocity_random = 0.27
+angular_velocity = 100.65
+angular_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel_random = 1.0
+scale = 17.13
+scale_random = 0.55
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Particles2D
+
+func _ready():
+	$Partikel.play(\"Explosion\")
+
+
+func _on_Partikel_animation_finished(anim_name):
+	if lifetime == 0:
+		queue_free()
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "Explosion"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Explosion" type="Particles2D"]
+emitting = false
+amount = 60
+one_shot = true
+preprocess = 1.0
+explosiveness = 0.3
+process_material = SubResource( 1 )
+script = SubResource( 7 )
+
+[node name="Partikel" type="AnimationPlayer" parent="."]
+anims/Explosion = SubResource( 2 )
+[connection signal="animation_finished" from="Partikel" to="." method="_on_Partikel_animation_finished"]

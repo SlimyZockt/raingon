@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://sprites/box.png" type="Texture" id=1]
+[ext_resource path="res://assets/box.png" type="Texture" id=1]
+[ext_resource path="res://assets/sound/shot.wav" type="AudioStream" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends RigidBody2D
 
 func _on_hitboy_body_entered(body):
-	if body.is_in_group(\"hitbox\") or body.name == \"wall\":
+	if body.is_in_group(\"hitbox\") or body.name == \"wall\" or body.name == \"player\" :
 		queue_free()
 
 "
@@ -96,4 +97,7 @@ scale = Vector2( 0.22, 0.807 )
 
 [node name="collisionbox" type="CollisionShape2D" parent="hitboy"]
 shape = SubResource( 11 )
+
+[node name="shot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
 [connection signal="body_entered" from="hitboy" to="." method="_on_hitboy_body_entered"]
