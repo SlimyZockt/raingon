@@ -34,6 +34,7 @@ func _on_Area2D_body_entered(body):
 		hp -= 1
 		var ex = explosion.instance()
 		ex.position = global_position
+		ex.ex()
 		get_tree().get_root().add_child(ex)
 		$AnimationPlayer.play(\"Hit\")
 		if hp == 0:
@@ -85,7 +86,6 @@ func see():
 		var result = space_state.intersect_ray(global_position, pos, [self], collision_mask)
 		if result:
 			hit_pos.append(result.position)
-			print(result.collider.name) 
 			if result.collider.name == \"player\":
 				rotation = (target.global_position - global_position).angle()
 				detects = true
@@ -98,20 +98,20 @@ func follw(player_pos):
 			speed += 0.02
 			motition = (global_position - player_pos) * -speed"
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 32, 32 )
 
-[sub_resource type="CircleShape2D" id=10]
+[sub_resource type="CircleShape2D" id=3]
 
-[sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 32, 32 )
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 33, 33 )
 
-[sub_resource type="Curve2D" id=12]
+[sub_resource type="Curve2D" id=5]
 _data = {
 "points": PoolVector2Array(  )
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=6]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("box:modulate")
@@ -146,7 +146,7 @@ detect_radius = 700
 hp = 8
 
 [node name="Collisionbox" type="CollisionShape2D" parent="."]
-shape = SubResource( 9 )
+shape = SubResource( 2 )
 
 [node name="box" type="Sprite" parent="."]
 modulate = Color( 1, 0.0196078, 0.0196078, 1 )
@@ -157,20 +157,20 @@ texture = ExtResource( 1 )
 editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attakRange"]
-shape = SubResource( 10 )
+shape = SubResource( 3 )
 
 [node name="hitbox" type="Area2D" parent="."]
 editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 visible = false
-shape = SubResource( 11 )
+shape = SubResource( 4 )
 
 [node name="Path2D" type="Path2D" parent="."]
-curve = SubResource( 12 )
+curve = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Hit = SubResource( 13 )
+anims/Hit = SubResource( 6 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )

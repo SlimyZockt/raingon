@@ -19,7 +19,7 @@
 [ext_resource path="res://prefabs/ClostedR.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scene/gui.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scene/dungeon.tscn" type="PackedScene" id=19]
-[ext_resource path="res://assets/sound/soundTrack1.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/sound/cyba_-_yellow.wav" type="AudioStream" id=20]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D

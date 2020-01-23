@@ -21,7 +21,7 @@ func _ready():
 	for Room in Rooms:
 		if Room.name == \"RoomTemplates\":
 			RoomTemplates = Room
-	yield(get_tree().create_timer(0.05), \"timeout\")
+	yield(get_tree().create_timer(0.08), \"timeout\")
 	spawn_room()
 	yield(get_tree().create_timer(waittime), \"timeout\")
 	queue_free()

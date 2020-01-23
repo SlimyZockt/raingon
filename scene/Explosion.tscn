@@ -33,7 +33,7 @@ color_ramp = SubResource( 4 )
 [sub_resource type="GDScript" id=7]
 script/source = "extends Particles2D
 
-func _ready():
+func ex():
 	$Partikel.play(\"Explosion\")
 
 

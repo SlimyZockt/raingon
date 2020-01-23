@@ -5,13 +5,12 @@
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
-
 class_name Player
 
-onready var bullet_scene = preload(\"res://scene/bullet.tscn\")
+export(PackedScene) var bullet_scene = preload(\"res://scene/bullet.tscn\")
 
 export(float) var FIRE_RATE = 0.5
-export(int) var BULLET_AMUONT = 5
+export(float) var BULLET_AMUONT = 1
 export(int) var BULLET_SPEED = 1200
 export(int) var BULLET_RAIL = 1
 
@@ -19,10 +18,16 @@ var motion: Vector2 = Vector2()
 var SavedPos: Vector2
 var can_fire = true
 var isJoyConnected
+var Gun: gun 
 
+const ROTATION_P = 8
 const dead_zone = 0.01
 const MAX_SPEED = 600 * 1.5
 const ACCELERATION = 2000 * 1.4
+
+func _ready():
+	Gun = gun.new(bullet_scene,$BulletPoint, FIRE_RATE, BULLET_AMUONT, BULLET_SPEED, BULLET_RAIL, $shot)
+	add_child(Gun)
 
 func _process(delta):
 	check_input()
@@ -59,26 +64,12 @@ func apply_movement(acceleration):
 func shot_mouse():
 	look_at(get_global_mouse_position())
 	
-	if Input.is_action_pressed(\"mouse\") and can_fire:
-		shot()
+	if Input.is_action_pressed(\"mouse\"):
+		Gun.shot()
 
 func shot_controller():
-	if can_fire:
-		shot()
-
-func shot():
-	for bulletR in range(BULLET_RAIL):
-		for bulletA in range(BULLET_AMUONT):
-			var	bullet_instance = bullet_scene.instance()
-			bullet_instance.position = $BulletPoint.get_global_position() + Vector2( bulletA * 100, 0)
-			bullet_instance.rotation_degrees = rotation_degrees #+ rand_range(-FIRE_AMUONT,FIRE_AMUONT)
-			bullet_instance.apply_impulse(Vector2(), Vector2(BULLET_SPEED, 0).rotated(rotation))
-			get_tree().get_root().add_child(bullet_instance)
-			$shot.play()
-		can_fire = false
-		yield(get_tree().create_timer(FIRE_RATE), \"timeout\")
-		can_fire = true	
-		
+	Gun.shot()
+	
 func use_joy():
 	var staticDirction
 	if Input.get_connected_joypads().size() > 0:
@@ -101,25 +92,24 @@ func die():
 	queue_free()"
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 4.46816, 27.1302 )
+extents = Vector2( 4.97357, 27.1302 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 36, 36 )
+extents = Vector2( 36.6168, 36.5927 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" groups=[
 "player",
 ]]
-position = Vector2( 2, 0 )
 rotation = 1.5708
 script = SubResource( 1 )
-FIRE_RATE = 0.3
+BULLET_AMUONT = 5.0
 
 [node name="shot" type="AudioStreamPlayer2D" parent="."]
 scale = Vector2( 0.9, 0.9 )
 stream = ExtResource( 1 )
 
 [node name="BulletPoint" type="Node2D" parent="."]
-position = Vector2( 46.146, 3.05176e-005 )
+position = Vector2( 60.146, 0 )
 
 [node name="player" type="Sprite" parent="."]
 rotation = 1.5708
