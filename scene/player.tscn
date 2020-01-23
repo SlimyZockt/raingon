@@ -24,7 +24,7 @@ const ROTATION_P = 8
 const dead_zone = 0.01
 const MAX_SPEED = 600 * 1.5
 const ACCELERATION = 2000 * 1.4
-
+#k
 func _ready():
 	Gun = gun.new(bullet_scene,$BulletPoint, FIRE_RATE, BULLET_AMUONT, BULLET_SPEED, BULLET_RAIL, $shot)
 	add_child(Gun)
